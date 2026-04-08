@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mi-app-java
+spec:
+  replicas: 2 # Correrá 2 instancias de tu app
+  selector:
+    matchLabels:
+      app: mi-app-java
+  template:
+    metadata:
+      labels:
+        app: mi-app-java
+    spec:
+      containers:
+        - name: mi-app-java
+          image: tu-region-docker.pkg.dev/tu-proyecto-gcp/mi-repo/mi-app-java:latest
+          ports:
+            - containerPort: 8080
