@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 name: CI/CD Pipeline a GCP
 
 on:
@@ -34,3 +35,65 @@ jobs:
       run: |
         kubectl apply -f k8s/deployment.yaml
         kubectl apply -f k8s/service.yaml
+=======
+name: Deploy Java App to GKE
+
+on:
+  push:
+    branches:
+      - main  # Se ejecuta cuando haces push a la rama main
+
+permissions:
+  contents: 'read'
+  id-token: 'write' # Obligatorio para usar Workload Identity Federation
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Autenticación con Google Cloud usando Workload Identity Federation
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          workload_identity_provider: 'projects/278230809043/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
+          service_account: 'github-actions-robot@project-2e1b8850-8d2e-4248-822.iam.gserviceaccount.com'
+
+      # Configuración de Java 21 y Gradle
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'gradle'
+
+      # Construcción del JAR con Gradle
+      - name: Build with Gradle
+        run: ./gradlew build -x test
+
+      # Configuración de Docker para subir la imagen al Artifact Registry
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+
+      - name: Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker us-central1-docker.pkg.dev # Ajusta la región si es diferente
+
+      # Construcción y subida de la imagen Docker
+      - name: Build and Push Docker Image
+        run: |
+          docker build -t us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/my-repository/my-app:latest .
+          docker push us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/my-repository/my-app:latest
+
+      # Despliegue en el clúster de Kubernetes (GKE)
+      - name: Get GKE Credentials
+        uses: google-github-actions/get-gke-credentials@v1
+        with:
+          cluster_name: 'my-first-cluster' # Reemplaza con el nombre de tu clúster
+          location: 'us-central1' # Reemplaza con tu zona/región
+
+      - name: Deploy to GKE
+        run: kubectl rollout restart deployment/my-app-deployment
+>>>>>>> 1b263a2 (docker file)
