@@ -46,8 +46,9 @@ jobs:
       # Construcción y subida de la imagen Docker
       - name: Build and Push Docker Image
         run: |
-          docker build -t us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/my-repository/my-app:latest .
-          docker push us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/my-repository/my-app:latest
+          # Usamos sudo para evitar el error de permisos del socket
+          sudo docker build -t us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/my-repository/my-app:latest .
+          sudo docker push us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/my-repository/my-app:latest
 
       # Despliegue en el clúster de Kubernetes (GKE)
       - name: Get GKE Credentials
