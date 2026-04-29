@@ -12,7 +12,7 @@ COPY settings.gradle .
 RUN chmod +x gradlew
 RUN ./gradlew dependencies --no-daemon
 
-# Copiar el código fuente y compilar el proyecto
+# Copiar código fuente y compilar el proyecto
 COPY src src
 RUN ./gradlew bootJar --no-daemon
 
