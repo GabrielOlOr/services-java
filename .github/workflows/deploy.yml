@@ -42,12 +42,19 @@ jobs:
       - name: Configure Docker for Artifact Registry
         run: gcloud auth configure-docker us-central1-docker.pkg.dev
 
-      # Construcción y subida de la imagen Docker
+      # 1. Autenticar Docker (Sin sudo)
+      - name: Docker Auth
+        uses: 'docker/login-action@v3'
+        with:
+          registry: 'us-central1-docker.pkg.dev'
+          username: '_json_key'
+          password: '${{ steps.auth.outputs.credentials_json }}'
+
+      # 2. Construir y subir (Sin sudo)
       - name: Build and Push Docker Image
         run: |
-          # Reemplacé la variable por tu ID de proyecto directo para evitar la doble barra
-          sudo docker build -t us-central1-docker.pkg.dev/project-2e1b8850-8d2e-4248-822/my-repository/my-app:latest .
-          sudo docker push us-central1-docker.pkg.dev/project-2e1b8850-8d2e-4248-822/my-repository/my-app:latest
+          docker build -t us-central1-docker.pkg.dev/project-2e1b8850-8d2e-4248-822/my-repository/my-app:latest .
+          docker push us-central1-docker.pkg.dev/project-2e1b8850-8d2e-4248-822/my-repository/my-app:latest
 
       - name: Get GKE Credentials
         uses: google-github-actions/get-gke-credentials@v1
