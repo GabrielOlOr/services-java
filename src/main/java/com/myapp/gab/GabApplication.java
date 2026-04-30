@@ -5,9 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication(scanBasePackages = "com.myapp.gab")
 public class GabApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(GabApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(GabApplication.class, args);
+    }
 }
