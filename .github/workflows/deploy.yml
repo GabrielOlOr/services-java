@@ -42,9 +42,10 @@ jobs:
       - name: Configure Docker for Artifact Registry
         run: gcloud auth configure-docker us-central1-docker.pkg.dev
 
-      # CORRECCIÓN AQUÍ: Usamos tu ID de proyecto directo para evitar errores de Secrets vacíos
+      # Construcción y subida de la imagen Docker
       - name: Build and Push Docker Image
         run: |
+          # Reemplacé la variable por tu ID de proyecto directo para evitar la doble barra
           sudo docker build -t us-central1-docker.pkg.dev/project-2e1b8850-8d2e-4248-822/my-repository/my-app:latest .
           sudo docker push us-central1-docker.pkg.dev/project-2e1b8850-8d2e-4248-822/my-repository/my-app:latest
 
