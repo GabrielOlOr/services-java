@@ -62,7 +62,7 @@ jobs:
           cluster_name: 'my-first-cluster'
           location: 'us-central1'
 
-  - name: Deploy to GKE
-      run: |
-        kubectl apply -f k8s.yaml
-        kubectl rollout status deployment/my-app-deployment
+      - name: Deploy to GKE
+        run: |
+                  kubectl apply -f k8s.yaml
+                  kubectl rollout status deployment/my-app-deployment
