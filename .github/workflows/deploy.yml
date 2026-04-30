@@ -44,11 +44,7 @@ jobs:
 
       # 1. Autenticar Docker usando la salida del paso anterior
       - name: Docker Auth
-        uses: 'docker/login-action@v3'
-        with:
-          registry: 'us-central1-docker.pkg.dev'
-          username: '_json_key'
-          password: '${{ steps.auth.outputs.credentials_json }}'
+        run: gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
 
       # 2. Construir y subir (YA SIN SUDO)
       - name: Build and Push Docker Image
