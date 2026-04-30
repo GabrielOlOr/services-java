@@ -42,7 +42,7 @@ jobs:
       - name: Configure Docker for Artifact Registry
         run: gcloud auth configure-docker us-central1-docker.pkg.dev
 
-      # 1. Autenticar Docker (Sin sudo)
+      # 1. Autenticar Docker usando la salida del paso anterior
       - name: Docker Auth
         uses: 'docker/login-action@v3'
         with:
@@ -50,7 +50,7 @@ jobs:
           username: '_json_key'
           password: '${{ steps.auth.outputs.credentials_json }}'
 
-      # 2. Construir y subir (Sin sudo)
+      # 2. Construir y subir (YA SIN SUDO)
       - name: Build and Push Docker Image
         run: |
           docker build -t us-central1-docker.pkg.dev/project-2e1b8850-8d2e-4248-822/my-repository/my-app:latest .
