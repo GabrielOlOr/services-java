@@ -8,7 +8,8 @@ public class helloController {
 
     @GetMapping("/sorpresa")
     public String sorpresa() {
-        return "forward:/sorpresa.html";
+        // Cambiamos forward por redirect
+        return "redirect:/sorpresa.html";
     }
 
 }
