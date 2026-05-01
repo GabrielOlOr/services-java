@@ -12,4 +12,10 @@ public class helloController {
         return "redirect:/sorpresa.html";
     }
 
+    @GetMapping("/karlita")
+    public String karlita() {
+        // Cambiamos forward por redirect
+        return "redirect:/karlita.html";
+    }
+
 }
