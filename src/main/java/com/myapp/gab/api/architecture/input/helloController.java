@@ -18,4 +18,10 @@ public class helloController {
         return "redirect:/karlita.html";
     }
 
+    @GetMapping("/serch")
+    public String serch() {
+        // Cambiamos forward por redirect
+        return "redirect:/serch.html";
+    }
+
 }
